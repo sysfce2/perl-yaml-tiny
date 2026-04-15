@@ -7,7 +7,7 @@ package SubtestCompat;
 # XXX must be used with no_plan or done_testing
 use Test::More 0.88;
 
-use base 'Exporter';
+use Exporter 'import';
 our @EXPORT;
 
 our $INDENT = -2;
