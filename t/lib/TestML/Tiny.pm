@@ -233,13 +233,13 @@ sub check_version {
 sub compile_code_tiny_0_1_0 {
     my ($self) = @_;
     my $num = 1;
-    [ grep { not /(^#|^\s*$)/ } split /\n/, $self->{code} ];
+    [ grep !/(^#|^\s*$)/, split /\n/, $self->{code} ];
 }
 
 sub compile_data_testml_0_1_0 {
     my ($self) = @_;
 
-    my $lines = [ grep { ! /^#/ } split /\n/, $self->{data} ];
+    my $lines = [ grep !/^#/, split /\n/, $self->{data} ];
 
     my $blocks = [];
     my $parse = [];
@@ -258,7 +258,7 @@ sub compile_data_testml_0_1_0 {
         last if !defined($lines->[0]);
     }
 
-    my $only = [ grep { exists $_->{ONLY} } @$blocks ];
+    my $only = [ grep exists($_->{ONLY}), @$blocks ];
 
     return @$only ? $only : $blocks;
 }

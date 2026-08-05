@@ -137,7 +137,7 @@ my %UNESCAPES = (
 
 # These 3 values have special meaning when unquoted and using the
 # default YAML schema. They need quotes if they are strings.
-my %QUOTE = map { $_ => 1 } qw{
+my %QUOTE = map +($_ => 1), qw{
     null true false
 };
 
@@ -238,7 +238,7 @@ Did you decode with lax ":utf8" instead of strict ":encoding(UTF-8)"?
         return $self unless length $string;
 
         # Split the file into lines
-        my @lines = grep { ! /^\s*(?:\#.*)?\z/ }
+        my @lines = grep !/^\s*(?:\#.*)?\z/,
                 split /(?:\015{1,2}\012|\015|\012)/, $string;
 
         # Strip the initial YAML header
@@ -645,7 +645,7 @@ sub _dump_string {
         $self->_error($@);
     }
 
-    join '', map { "$_\n" } @lines;
+    join '', map "$_\n", @lines;
 }
 
 sub _has_internal_string_value {
@@ -814,7 +814,7 @@ sub _can_flock {
     else {
         require Config;
         my $c = \%Config::Config;
-        $HAS_FLOCK = grep { $c->{$_} } qw/d_flock d_fcntl_can_lock d_lockf/;
+        $HAS_FLOCK = grep $c->{$_}, qw/d_flock d_fcntl_can_lock d_lockf/;
         require Fcntl if $HAS_FLOCK;
         return $HAS_FLOCK;
     }

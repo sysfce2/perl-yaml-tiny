@@ -28,12 +28,12 @@ my %skip_map = (
 
 my %loader_for = do {
     no strict 'refs';
-    map {; $_ => *{$_ . "::Load"}{CODE} } "YAML::Tiny", @parsers;
+    map +($_ => *{$_ . "::Load"}{CODE}), "YAML::Tiny", @parsers;
 };
 
 my %dumper_for = do {
     no strict 'refs';
-    map {; $_ => *{$_ . "::Dump"}{CODE} } "YAML::Tiny", @parsers;
+    map +($_ => *{$_ . "::Dump"}{CODE}), "YAML::Tiny", @parsers;
 };
 
 for my $dir ( $local_dir, $world_dir ) {
